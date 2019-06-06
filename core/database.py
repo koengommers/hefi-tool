@@ -2,7 +2,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
+
 DB_URL = 'sqlite:///data/database.sqlite'
+
 
 class Database:
 
@@ -14,5 +16,6 @@ class Database:
 
     def create_all(self):
         self.Model.metadata.create_all(self.engine)
+
 
 db = Database(DB_URL)
