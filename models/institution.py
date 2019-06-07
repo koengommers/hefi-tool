@@ -12,3 +12,8 @@ class Institution(db.Model):
     location    = Column(String)
     documents   = relationship('Document', back_populates='institution')
     data_points = relationship('DataPoint', back_populates='institution')
+
+    def __init__(self, name, business_id, location):
+        self.name = name
+        self.business_id = business_id
+        self.location = location
