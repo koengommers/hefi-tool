@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
 from core.database import db
-from models import Institution
+from models import Entry
 
 
 class OverviewScraper:
@@ -45,9 +45,9 @@ class OverviewScraper:
         parsed_url = urlparse.urlparse(url)
         business_id = urlparse.parse_qs(parsed_url.query)['kvkNumber'][0]
 
-        institution = db.session.query(Institution).filter_by(business_id=business_id).first()
-        if not institution:
-            self.results.append(Institution(name, business_id, location))
+        entry = db.session.query(Entry).filter_by(business_id=business_id, year=self.year).first()
+        if not entry:
+            self.results.append(Entry(business_id, self.year, name, location))
 
     def get_html(self):
         driver = webdriver.Chrome()
