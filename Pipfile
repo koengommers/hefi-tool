@@ -10,6 +10,7 @@ sqlalchemy = "*"
 alembic = "*"
 selenium = "*"
 bs4 = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

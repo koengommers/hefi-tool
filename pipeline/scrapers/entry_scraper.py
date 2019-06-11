@@ -50,7 +50,7 @@ class EntryScraper:
             locale.setlocale(locale.LC_TIME, 'nl_NL')
             published_on = datetime.strptime(published_text, '%A %d %B %Y').date()
 
-            document = Document(entry, label, name, False, published_on, url)
+            document = Document(entry, label, False, name, published_on, url)
             self.documents.append(document)
 
     def save_results(self):

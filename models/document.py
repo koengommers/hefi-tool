@@ -20,10 +20,10 @@ class Document(db.Model):
     url            = Column(String)
     path           = Column(String)
 
-    def __init__(self, entry, label, name, standardized, published_on, url=None):
+    def __init__(self, entry, label, standardized, name=None, published_on=None, url=None):
         self.entry = entry
         self.label = label
-        self.name = name
         self.standardized = standardized
+        self.name = name
         self.published_on = published_on
         self.url = url
