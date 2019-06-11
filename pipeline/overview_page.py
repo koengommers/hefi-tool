@@ -8,6 +8,7 @@ class OverviewPage:
     def __init__(self, year, reload=False):
         self.year = year
         self.html = None
+        self.url = 'https://www.desan.nl/net/DoSearch/Search.aspx'
 
         if not reload and os.path.isfile(self.html_file()):
             with open(self.html_file(), 'r') as file:
@@ -18,7 +19,7 @@ class OverviewPage:
 
     def download(self):
         driver = webdriver.Chrome()
-        driver.get('https://www.desan.nl/net/DoSearch/Search.aspx')
+        driver.get(self.url)
 
         select = Select(driver.find_element_by_name('zoeken_jaar'))
         if not str(self.year) in [option.text for option in select.options]:

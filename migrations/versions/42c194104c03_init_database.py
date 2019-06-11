@@ -1,8 +1,8 @@
 """Init database
 
-Revision ID: 249aad1a13be
+Revision ID: 42c194104c03
 Revises: 
-Create Date: 2019-06-10 15:43:27.855590
+Create Date: 2019-06-11 14:00:51.092750
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '249aad1a13be'
+revision = '42c194104c03'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,17 +25,17 @@ def upgrade():
     )
     op.create_table('entries',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('business_id', sa.String(), nullable=True),
+    sa.Column('business_id', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('location', sa.String(), nullable=True),
-    sa.Column('year', sa.Integer(), nullable=True),
+    sa.Column('year', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['year'], ['years.year'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('business_id', 'year')
     )
     op.create_table('data_points',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('entry_id', sa.Integer(), nullable=True),
+    sa.Column('entry_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('value_type', sa.String(), nullable=True),
     sa.Column('value', sa.String(), nullable=True),
@@ -44,7 +44,7 @@ def upgrade():
     )
     op.create_table('documents',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('entry_id', sa.Integer(), nullable=True),
+    sa.Column('entry_id', sa.Integer(), nullable=False),
     sa.Column('label', sa.String(), nullable=True),
     sa.Column('standardized', sa.Boolean(), nullable=True),
     sa.Column('name', sa.String(), nullable=True),

@@ -7,10 +7,10 @@ class Entry(db.Model):
     __tablename__ = 'entries'
 
     id          = Column(Integer, primary_key=True)
-    business_id = Column(String)
+    business_id = Column(String, nullable=False)
     name        = Column(String)
     location    = Column(String)
-    year        = Column(Integer, ForeignKey('years.year'))
+    year        = Column(Integer, ForeignKey('years.year'), nullable=False)
     year_obj    = relationship('Year', back_populates='entries')
     documents   = relationship('Document', back_populates='entry')
     data_points = relationship('DataPoint', back_populates='entry')

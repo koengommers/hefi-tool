@@ -1,6 +1,6 @@
 from core.command_handler import CommandHandler
-from pipeline.scrapers.entry_scraper import EntryScraper
 from pipeline.overview_page import OverviewPage
+from pipeline.scrapers.entry_scraper import EntryScraper
 
 
 class ScrapeCommand(CommandHandler):
@@ -12,6 +12,6 @@ class ScrapeCommand(CommandHandler):
             scraper = EntryScraper(page)
             scraper.scrape_entries()
             n_results = scraper.save_results()
-            print('{} results added to database'.format(n_results))
+            print('{} entries and {} documents added to database'.format(*n_results))
         except RuntimeError:
             print('Something went wrong. Try again.')
