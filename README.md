@@ -18,9 +18,11 @@ Provides insights to healthcare financials
 
 ### Instructions
 
-Install dependencies
+Install dependencies and create necessary directories
 
     pipenv install
+    mkdir data
+    mkdir data/html
 
 Activate virtualenv (Don't forget to do this every time after opening a new terminal)
 
