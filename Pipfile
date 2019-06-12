@@ -15,6 +15,7 @@ pdf2image = "*"
 selenium = "*"
 bs4 = "*"
 requests = "*"
+pdfquery = "*"
 
 [requires]
 python_version = "3.7"
