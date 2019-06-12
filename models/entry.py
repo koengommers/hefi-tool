@@ -23,3 +23,39 @@ class Entry(db.Model):
         self.year = year
         self.name = name
         self.location = location
+
+    @staticmethod
+    def bulk_process(entries)
+        necessary_documents = []
+        for entry in entries:
+            necessary_documents += entry.get_necessary_documents()
+        Document.bulk_download(necessary_documents)
+
+        for entry in entries:
+            entry.get_data()
+
+    def process(self):
+        necessary_documents = self.get_necessary_documents()
+        Document.bulk_download(necessary_documents)
+        self.get_data()
+
+    def get_necessary_documents(self):
+        pass
+
+    def get_data(self):
+        self.get_finance_data()
+        self.get_personnel_data()
+
+    def add_data_point(self, key, value, value_type):
+        pass
+
+    def get_finance_data(self):
+        finance_document = self.get_financial_document()
+        extractor = FinanceDataExtractor(finance_document)
+        results = extractor.get_results()
+        for key, value in results.items():
+            value_type = 'integer'
+            self.add_data_point(self, key, value, value_type)
+
+    def get_personnel_data(self):
+        pass
