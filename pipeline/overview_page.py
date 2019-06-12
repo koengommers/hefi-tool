@@ -26,8 +26,8 @@ class OverviewPage:
             raise ValueError('Year not valid.')
         select.select_by_visible_text(str(self.year))
 
-        continue_button = driver.find_element_by_class_name('linkcontinue')
-        continue_button.click()
+        search_button = driver.find_element_by_name('zoeken')
+        search_button.click()
 
         if driver.title == 'Runtime Error':
             raise RuntimeError
