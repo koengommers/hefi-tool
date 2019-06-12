@@ -5,7 +5,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 from core.database import db
-from models import Document, Entry
+from models import Document, Entry, Year
 
 
 class EntryScraper:
@@ -15,6 +15,7 @@ class EntryScraper:
         self.soup = BeautifulSoup(page.get_html(), features='html.parser')
         self.entries = []
         self.documents = []
+        self.year_exists = bool(db.session.query(Year).filter_by(year=self.year).first())
 
     def scrape_entries(self):
         overview = self.soup.find('div', attrs={'id': 'resultaten'})
@@ -29,6 +30,13 @@ class EntryScraper:
 
         parsed_url = urlparse.urlparse(url)
         business_id = urlparse.parse_qs(parsed_url.query)['kvkNumber'][0]
+
+        if not self.year_exists:
+            digimv_url = url.replace(business_id, '')
+            year_obj = Year(self.year, digimv_url)
+            db.session.add(year_obj)
+            db.session.commit()
+            self.year_exists = True
 
         entry = db.session.query(Entry).filter_by(business_id=business_id, year=self.year).first()
         if not entry:
