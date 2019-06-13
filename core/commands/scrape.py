@@ -1,6 +1,6 @@
 from core.command_handler import CommandHandler
-from pipeline.overview_page import OverviewPage
-from pipeline.scrapers.entry_scraper import EntryScraper
+from pipeline.retrieval.overview_page import OverviewPage
+from pipeline.retrieval.entry_scraper import EntryScraper
 
 
 class ScrapeCommand(CommandHandler):

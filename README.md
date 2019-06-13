@@ -21,8 +21,7 @@ Provides insights to healthcare financials
 Install dependencies and create necessary directories
 
     pipenv install
-    mkdir data
-    mkdir data/html
+    ./init.sh
 
 Activate virtualenv (Don't forget to do this every time after opening a new terminal)
 
