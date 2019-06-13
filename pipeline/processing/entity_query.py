@@ -84,9 +84,3 @@ class EntityDocument(object):
                 break
         return legalforms[index]
 
-test = EntityDocument('testpdf9.xml')
-
-
-print(test.find_entity())
-print(test.find_legalform())
-
