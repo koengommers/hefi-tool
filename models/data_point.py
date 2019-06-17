@@ -12,3 +12,28 @@ class DataPoint(db.Model):
     name           = Column(String)
     value_type     = Column(String)
     value          = Column(String)
+
+    def __init__(self, entry, key):
+        self.entry = entry
+        self.name = key
+
+    def set_value(self, value):
+        if type(value) == int:
+            self.value_type = 'integer'
+        elif type(value) == float:
+            self.value_type = 'float'
+        elif type(value) == str:
+            self.value_type = 'string'
+        elif type(value) == bool:
+            self.value_type = 'boolean'
+        self.value = str(value)
+
+    def get_value(self):
+        value = self.value
+        if self.value_type == 'integer':
+            value = int(value)
+        elif self.value_type == 'float':
+            value = float(value)
+        elif self.value_type == 'boolean':
+            value = value == 'True'
+        return value

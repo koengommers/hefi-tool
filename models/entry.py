@@ -1,6 +1,7 @@
 from core.database import db
 from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
+from models import DataPoint
 
 
 class Entry(db.Model):
@@ -23,3 +24,14 @@ class Entry(db.Model):
         self.year = year
         self.name = name
         self.location = location
+
+    def add_data_point(self, key, value):
+        data_point = db.session.query(DataPoint).filter_by(entry_id=self.id, name=key).first()
+        if not data_point:
+            data_point = DataPoint(self, key)
+            db.session.add(data_point)
+        data_point.set_value(value)
+        db.session.commit()
+
+    def get_data_point(self, key):
+        return next(data_point.get_value() for data_point in self.data_points if data_point.name == key, None)
