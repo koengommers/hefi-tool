@@ -1,3 +1,4 @@
+import os
 import string
 from datetime import datetime
 
@@ -43,12 +44,18 @@ class Document(db.Model):
     def get_path(self):
         if not self.downloaded:
             self.download()
-        return self.path
+        return os.path.join(os.path.abspath('data/pdf'), self.path)
 
     def set_downloaded(self):
         self.path = self.filename()
         self.downloaded = True
         self.downloaded_on = datetime.utcnow()
+        db.session.commit()
+
+    def remove_download(self):
+        self.path = None
+        self.downloaded = False
+        self.downloaded_on = None
         db.session.commit()
 
     def download(self):

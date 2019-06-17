@@ -34,4 +34,12 @@ class Entry(db.Model):
         db.session.commit()
 
     def get_data_point(self, key):
-        return next(data_point.get_value() for data_point in self.data_points if data_point.name == key, None)
+        return next((data_point.get_value() for data_point in self.data_points if data_point.name == key), None)
+
+    def get_financial_document(self):
+        return next((doc for doc in self.documents if doc.label == self.year_obj.financial_label), None)
+
+    def get_necessary_documents(self):
+        return [
+            self.get_financial_document()
+        ]

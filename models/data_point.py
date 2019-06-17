@@ -26,7 +26,9 @@ class DataPoint(db.Model):
             self.value_type = 'string'
         elif type(value) == bool:
             self.value_type = 'boolean'
-        self.value = str(value)
+        if value is not None:
+            value = str(value)
+        self.value = value
 
     def get_value(self):
         value = self.value

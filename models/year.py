@@ -6,9 +6,10 @@ from sqlalchemy.orm import relationship
 class Year(db.Model):
     __tablename__ = 'years'
 
-    year       = Column(Integer, primary_key=True)
-    digimv_url = Column(String)
-    entries    = relationship('Entry', back_populates='year_obj')
+    year            = Column(Integer, primary_key=True)
+    digimv_url      = Column(String)
+    entries         = relationship('Entry', back_populates='year_obj')
+    financial_label = Column(String, default='Financiële gegevens')
 
     def __init__(self, year, digimv_url):
         self.year = year
