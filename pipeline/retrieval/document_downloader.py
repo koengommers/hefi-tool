@@ -56,13 +56,21 @@ class DocumentDownloader:
             for doc in docs:
                 if len(os.listdir(self.download_dir)) > 0:
                     raise RuntimeError('{} directory not clean'.format(self.download_dir))
-                elem = self.driver.find_element_by_xpath('//a[@class="DocumentReportItem" and normalize-space(text()) = "{}"]'.format(doc.label))
+                elem = self.driver.find_element_by_xpath('//a[@class="DocumentReportItem" and text() = "{}"]'.format(doc.label))
                 elem.click()
-                while not [f for f in os.listdir(self.download_dir) if f.endswith('.pdf')]:
-                    time.sleep(0.1)
-                filename = next(f for f in os.listdir(self.download_dir) if f.endswith('.pdf'))
-                os.rename(os.path.join(self.download_dir, filename), os.path.join(self.document_dir, doc.filename()))
-                doc.set_downloaded()
+
+                time.sleep(0.1)
+                self.driver.switch_to.window(self.driver.window_handles[-1])
+                if self.driver.title == 'Fout pagina':
+                    self.driver.close()
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                else:
+                    self.driver.switch_to.window(self.driver.window_handles[0])
+                    while not [f for f in os.listdir(self.download_dir) if f.endswith('.pdf')]:
+                        time.sleep(0.1)
+                    filename = next(f for f in os.listdir(self.download_dir) if f.endswith('.pdf'))
+                    os.rename(os.path.join(self.download_dir, filename), os.path.join(self.document_dir, doc.filename()))
+                    doc.set_downloaded()
 
     def download_non_standardized(self):
         year_groups = [(year, list(group)) for year, group in groupby(self.non_standardized, lambda doc: doc.entry.year)]
