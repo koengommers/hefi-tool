@@ -152,6 +152,7 @@ class FinanceDataExtractor:
             entry.add_data_point(index, value)
         for index, value in last_year.items():
             entry.add_data_point('Voorgaand jaar: {}'.format(index), value)
+        self.document.set_processed()
 
     def run(self):
         """
