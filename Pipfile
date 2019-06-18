@@ -17,6 +17,7 @@ bs4 = "*"
 requests = "*"
 pdfquery = "*"
 jellyfish = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.7"

@@ -43,3 +43,13 @@ class Entry(db.Model):
         return [
             self.get_financial_document()
         ]
+
+    def to_list(self, business_id=True, name=True, data_points=[]):
+        row = []
+        if business_id:
+            row.append(self.business_id)
+        if name:
+            row.append(self.name)
+        for data_point in data_points:
+            row.append(self.get_data_point(data_point))
+        return row

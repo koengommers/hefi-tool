@@ -1,3 +1,4 @@
+import pandas as pd
 from sqlalchemy import func
 
 from core.database import db
@@ -19,6 +20,24 @@ class Pipeline:
         cls.index_standardized_documents(entries)
         cls.download_documents(entries)
         cls.extract_data(entries, index_file)
+
+    @classmethod
+    def year_to_dataframe(cls, year, business_id=None, name=None, data_points=[]):
+        entries = db.session.query(Entry).filter_by(year=year).all()
+        return cls.entries_to_dataframe(entries, business_id, name, data_points)
+
+    @classmethod
+    def entries_to_dataframe(cls, entries, business_id=None, name=None, data_points=[]):
+        data = [entry.to_list(business_id, name, data_points) for entry in entries]
+
+        columns = []
+        if business_id:
+            columns.append(business_id)
+        if name:
+            columns.append(name)
+        columns += data_points
+
+        return pd.DataFrame(data, columns=columns)
 
     @classmethod
     def scrape_entries(cls, year):
