@@ -24,6 +24,7 @@ class Document(db.Model):
     published_on   = Column(Date)
     url            = Column(String)
     path           = Column(String)
+    is_processed   = Column(Boolean, default=False)
 
     def __init__(self, entry, label, standardized, name=None, published_on=None, url=None):
         self.entry = entry
@@ -61,3 +62,7 @@ class Document(db.Model):
     def download(self):
         downloader = DocumentDownloader([self])
         downloader.download()
+
+    def set_processed(self):
+        self.is_processed = True
+        db.session.commit()

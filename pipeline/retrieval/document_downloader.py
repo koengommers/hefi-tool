@@ -79,6 +79,7 @@ class DocumentDownloader:
                     try:
                         self.driver.switch_to.window(self.driver.window_handles[-1])
                         if self.driver.title == 'Fout pagina':
+                            print('Document #{} can\'t be downloaded'.format(doc.id))
                             self.driver.close()
                             self.driver.switch_to.window(self.driver.window_handles[0])
                             continue
