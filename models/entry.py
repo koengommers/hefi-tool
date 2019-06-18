@@ -42,11 +42,15 @@ class Entry(db.Model):
 
     def get_employee_document(self):
         return next((doc for doc in self.documents if doc.label == "Personeel"), None)
+    
+    def get_entity_document(self):
+        return next((doc for doc in self.documents if doc.label == 'Hoofdentiteit / Groepshoofd'), None)
 
     def get_necessary_documents(self):
         return [
             self.get_financial_document(),
-            self.get_employee_document()
+            self.get_employee_document(),
+            self.get_entity_document()
         ]
 
     def to_list(self, business_id=True, name=True, data_points=[]):
