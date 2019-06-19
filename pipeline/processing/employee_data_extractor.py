@@ -14,12 +14,20 @@ class EmployeeDataExtractor:
         else:
             self.pdf = None
 
+    @staticmethod
+    def get_bbox(result):
+        if len(result) > 0:
+            return result[0].get('bbox').strip('[]').split(', ')
+        return None
+
     def locate_column(self):
         result = self.pdf.extract([
-            ('with_formatter', lambda results: results[0].get('bbox').strip('[]').split(', ')),
+            ('with_formatter', lambda results: self.get_bbox(results)),
             ('totaal personeel', 'LTTextBoxHorizontal:contains("Personeel per einde verslagjaar")')
         ])
+        if result['totaal personeel'] is not None:
         return [float(x) for x in result['totaal personeel']]
+        return None
 
     @staticmethod
     def get_numerical(value):
@@ -31,11 +39,15 @@ class EmployeeDataExtractor:
         return None
 
     def get_employees(self, bbox):
+        if bbox is not None:
         new_bbox = str([sum(x) for x in zip(bbox, [180, -125, 180, -125])]).strip('[]')
         self.result = self.pdf.extract([
             ('with_formatter', lambda results: self.get_numerical(results.text())),
             ('totaal personeel', 'LTTextLineHorizontal:overlaps_bbox("{}")'.format(new_bbox))
         ])
+        return self.result
+        else:
+            self.result = {'totaal personeel' : None}
         return self.result
 
     def run(self):
