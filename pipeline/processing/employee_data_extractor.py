@@ -26,7 +26,7 @@ class EmployeeDataExtractor:
             ('totaal personeel', 'LTTextBoxHorizontal:contains("Personeel per einde verslagjaar")')
         ])
         if result['totaal personeel'] is not None:
-        return [float(x) for x in result['totaal personeel']]
+            return [float(x) for x in result['totaal personeel']]
         return None
 
     @staticmethod
@@ -40,12 +40,12 @@ class EmployeeDataExtractor:
 
     def get_employees(self, bbox):
         if bbox is not None:
-        new_bbox = str([sum(x) for x in zip(bbox, [180, -125, 180, -125])]).strip('[]')
-        self.result = self.pdf.extract([
-            ('with_formatter', lambda results: self.get_numerical(results.text())),
-            ('totaal personeel', 'LTTextLineHorizontal:overlaps_bbox("{}")'.format(new_bbox))
-        ])
-        return self.result
+            new_bbox = str([sum(x) for x in zip(bbox, [180, -125, 180, -125])]).strip('[]')
+            self.result = self.pdf.extract([
+                ('with_formatter', lambda results: self.get_numerical(results.text())),
+                ('totaal personeel', 'LTTextLineHorizontal:overlaps_bbox("{}")'.format(new_bbox))
+            ])
+            return self.result
         else:
             self.result = {'totaal personeel' : None}
         return self.result
