@@ -7,8 +7,11 @@ class EntityDataExtractor:
         self.document = document
         path = document.get_path(download=False)
         if path:
-            self.pdf = pdfquery.PDFQuery(path)
-            self.pdf.load()
+            try:
+                self.pdf = pdfquery.PDFQuery(path)
+                self.pdf.load()
+            except:
+                self.pdf = None
         else:
             self.pdf = None
 
