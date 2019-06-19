@@ -12,8 +12,11 @@ class FinanceDataExtractor:
         self.index_file = index_file
         path = document.get_path(download=False)
         if path:
-            self.pdf = pdfquery.PDFQuery(path)
-            self.get_columns()
+            try:
+                self.pdf = pdfquery.PDFQuery(path)
+                self.get_columns()
+            except:
+                self.pdf = None
         else:
             self.pdf = None
 

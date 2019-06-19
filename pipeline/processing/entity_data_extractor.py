@@ -7,8 +7,11 @@ class EntityDataExtractor:
         self.document = document
         path = document.get_path(download=False)
         if path:
-            self.pdf = pdfquery.PDFQuery(path)
-            self.pdf.load()
+            try:
+                self.pdf = pdfquery.PDFQuery(path)
+                self.pdf.load()
+            except:
+                self.pdf = None
         else:
             self.pdf = None
 
@@ -86,6 +89,8 @@ class EntityDataExtractor:
         ]
 
         options = self.pdf.pq('LTCurve').filter(self.below_y_split)
+
+        legal_form = None
         for i, elem in enumerate(options):
             if float(elem.get('height')) < 6:
                 # -1 because checked circle has 2 LTCurve elements
