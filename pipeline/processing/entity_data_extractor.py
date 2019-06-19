@@ -82,6 +82,8 @@ class EntityDataExtractor:
         ]
 
         options = self.pdf.pq('LTCurve').filter(self.below_y_split)
+
+        legal_form = None
         for i, elem in enumerate(options):
             if float(elem.get('height')) < 6:
                 # -1 because checked circle has 2 LTCurve elements
