@@ -18,7 +18,7 @@ class FinanceDataExtractor:
         """Returns a normalized index"""
         index = index.lower()
         index = index.replace('som der', 'totaal')
-        return re.sub('\(.*\)?', '', index)
+        return re.sub(' \(.*\)?', '', index)
 
     @classmethod
     def create_index_file(cls, documents, return_file):

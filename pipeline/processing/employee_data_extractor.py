@@ -6,9 +6,8 @@ from models import Document
 
 class EmployeeDataExtractor:
 
-    def __init__(self, document, index_file=None):
+    def __init__(self, document):
         self.document = document
-        self.index_file = index_file
         self.pdf = pdfquery.PDFQuery(document.get_path())
 
     def locate_column(self):
@@ -29,14 +28,18 @@ class EmployeeDataExtractor:
 
     def get_employees(self, bbox):
         new_bbox = str([sum(x) for x in zip(bbox, [180, -125, 180, -125])]).strip('[]')
-        result = self.pdf.extract([
+        self.result = self.pdf.extract([
             ('with_formatter', lambda results: self.get_numerical(results.text())),
             ('totaal personeel', 'LTTextLineHorizontal:overlaps_bbox("{}")'.format(new_bbox))
         ])
-        self.result = result
-        return result
+        return self.result
+
+    def run(self):
+        bbox = self.locate_column()
+        self.get_employees(bbox)
 
     def save_result(self):
         entry = self.document.entry
         for index, value in self.result.items():
             entry.add_data_point(index, value)
+        self.document.set_processed()

@@ -4,6 +4,8 @@ from sqlalchemy import func
 from core.database import db
 from models import Entry
 from pipeline.processing.finance_data_extractor import FinanceDataExtractor
+from pipeline.processing.entity_data_extractor import EntityDataExtractor
+from pipeline.processing.employee_data_extractor import EmployeeDataExtractor
 from pipeline.retrieval.document_downloader import DocumentDownloader
 from pipeline.retrieval.document_scraper import DocumentScraper
 from pipeline.retrieval.documents_page import DocumentsPage
@@ -70,6 +72,8 @@ class Pipeline:
     @classmethod
     def extract_data(cls, entries, index_file):
         cls.extract_financial_data(entries, index_file)
+        cls.extract_entity_data(entries)
+        cls.extract_employee_data(entries)
 
     @staticmethod
     def create_index_file(index_file, limit=10):
@@ -87,3 +91,23 @@ class Pipeline:
                 extractor = FinanceDataExtractor(doc, index_file=index_file)
                 extractor.run()
                 extractor.save_results()
+
+    @classmethod
+    def extract_entity_data(cls, entries):
+        entity_documents = [entry.get_entity_document() for entry in entries]
+        for doc in entity_documents:
+            if doc and not doc.is_processed:
+                print('Processing entity document for {}'.format(doc.entry.name))
+                extractor = EntityDataExtractor(doc)
+                extractor.run()
+                extractor.save_results()
+
+    @classmethod
+    def extract_employee_data(cls, entries):
+        employee_documents = [entry.get_employee_document() for entry in entries]
+        for doc in employee_documents:
+            if doc and not doc.is_processed:
+                print('Processing employee document for {}'.format(doc.entry.name))
+                extractor = EmployeeDataExtractor(doc)
+                extractor.run()
+                extractor.save_result()

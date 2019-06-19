@@ -17,6 +17,10 @@ class DataPoint(db.Model):
         self.entry = entry
         self.name = key
 
+    @staticmethod
+    def list_to_csv(value):
+        return ', '.join(map(lambda x: '"{}"'.format(str(x).replace('"', '')), value))
+
     def set_value(self, value):
         if type(value) == int:
             self.value_type = 'integer'
@@ -26,6 +30,9 @@ class DataPoint(db.Model):
             self.value_type = 'string'
         elif type(value) == bool:
             self.value_type = 'boolean'
+        elif type(value) == list:
+            self.value_type = 'list'
+            value = self.list_to_csv(value)
         if value is not None:
             value = str(value)
         self.value = value
