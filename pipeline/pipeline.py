@@ -93,8 +93,9 @@ class Pipeline:
             if doc and not doc.is_processed:
                 print('Processing financial document for {}'.format(doc.entry.name))
                 extractor = FinanceDataExtractor(doc, index_file=index_file)
-                extractor.run()
-                extractor.save_results()
+                if extractor.pdf:
+                    extractor.run()
+                    extractor.save_results()
 
     @classmethod
     def extract_entity_data(cls, entries):
@@ -103,8 +104,9 @@ class Pipeline:
             if doc and not doc.is_processed:
                 print('Processing entity document for {}'.format(doc.entry.name))
                 extractor = EntityDataExtractor(doc)
-                extractor.run()
-                extractor.save_results()
+                if extractor.pdf:
+                    extractor.run()
+                    extractor.save_results()
 
     @classmethod
     def extract_employee_data(cls, entries):
@@ -113,5 +115,6 @@ class Pipeline:
             if doc and not doc.is_processed:
                 print('Processing employee document for {}'.format(doc.entry.name))
                 extractor = EmployeeDataExtractor(doc)
-                extractor.run()
-                extractor.save_result()
+                if extractor.pdf:
+                    extractor.run()
+                    extractor.save_result()
