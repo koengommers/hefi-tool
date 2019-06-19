@@ -18,10 +18,14 @@ class Pipeline:
     def process_year(cls, year, index_file):
         cls.scrape_entries(year)
 
-        entries = db.session.query(Entry).filter_by(year=year).all()
+        entries = cls.get_entries(year)
         cls.index_standardized_documents(entries)
         cls.download_documents(entries)
         cls.extract_data(entries, index_file)
+
+    @classmethod
+    def get_entries(cls, year):
+        return db.session.query(Entry).filter_by(year=year).all()
 
     @classmethod
     def year_to_dataframe(cls, year, business_id=None, name=None, data_points=[]):
