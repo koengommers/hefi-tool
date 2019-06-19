@@ -8,7 +8,11 @@ class EmployeeDataExtractor:
 
     def __init__(self, document):
         self.document = document
-        self.pdf = pdfquery.PDFQuery(document.get_path())
+        path = document.get_path(download=False)
+        if path:
+            self.pdf = pdfquery.PDFQuery(path)
+        else:
+            self.pdf = None
 
     def locate_column(self):
         result = self.pdf.extract([

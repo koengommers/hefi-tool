@@ -5,8 +5,12 @@ class EntityDataExtractor:
 
     def __init__(self, document):
         self.document = document
-        self.pdf = pdfquery.PDFQuery(document.get_path())
-        self.pdf.load()
+        path = document.get_path(download=False)
+        if path:
+            self.pdf = pdfquery.PDFQuery(path)
+            self.pdf.load()
+        else:
+            self.pdf = None
 
     @staticmethod
     def above_y_split():

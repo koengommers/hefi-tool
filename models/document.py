@@ -42,10 +42,12 @@ class Document(db.Model):
         clean_label = ''.join(c for c in self.label if c in valid_filename_chars)
         return template.format(clean_label, self.entry.business_id, self.entry.year)
 
-    def get_path(self):
-        if not self.downloaded:
+    def get_path(self, download=True):
+        if download and not self.downloaded:
             self.download()
-        return os.path.join(os.path.abspath('data/pdf'), self.path)
+        if self.path:
+            return os.path.join(os.path.abspath('data/pdf'), self.path)
+        return None
 
     def set_downloaded(self):
         self.path = self.filename()

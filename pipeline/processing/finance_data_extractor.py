@@ -10,8 +10,12 @@ class FinanceDataExtractor:
     def __init__(self, document, index_file=None):
         self.document = document
         self.index_file = index_file
-        self.pdf = pdfquery.PDFQuery(document.get_path())
-        self.get_columns()
+        path = document.get_path(download=False)
+        if path:
+            self.pdf = pdfquery.PDFQuery(path)
+            self.get_columns()
+        else:
+            self.pdf = None
 
     @staticmethod
     def normalize_index(index):
