@@ -39,7 +39,9 @@ class DataPoint(db.Model):
 
     def get_value(self):
         value = self.value
-        if self.value_type == 'integer':
+        if self.value is None:
+            return self.value
+        elif self.value_type == 'integer':
             value = int(value)
         elif self.value_type == 'float':
             value = float(value)
