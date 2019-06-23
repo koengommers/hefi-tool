@@ -128,7 +128,7 @@ class FinanceDataExtractor:
     def get_numerical(value):
         """Takes a string value and returns a numerical value"""
         value = value.replace('.', '')
-        match = re.search('[0-9]+', value)
+        match = re.search('-[0-9]+', value)
         if match is not None:
             return int(match.group(0))
         return None
