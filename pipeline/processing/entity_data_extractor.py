@@ -30,7 +30,10 @@ class EntityDataExtractor:
     def is_registered(self):
         """Returns whether the institution is registered at the Chamber of Commerce."""
         results = self.pdf.pq('LTCurve').filter(self.above_y_split)
-        return float(results[1].get('height')) < 6
+        if results:
+            return float(results[1].get('height')) < 6
+        else:
+            return None
 
     def list_institution_types(self, result):
         """Returns a list of all the institution types"""
