@@ -37,7 +37,7 @@ class Entry(db.Model):
         return next((data_point.get_value() for data_point in self.data_points if data_point.name == key), None)
 
     def get_financial_document(self):
-        return next((doc for doc in self.documents if doc.label == self.year_obj.financial_label), None)
+        return next((doc for doc in self.documents if self.year_obj.financial_label.lower() in doc.label.lower()), None)
 
     def get_employee_document(self):
         return next((doc for doc in self.documents if doc.label == 'Personeel'), None)
