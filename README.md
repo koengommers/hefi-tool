@@ -1,40 +1,15 @@
-# Tweedejaarsproject Volkskrant
+# HeFi-tool
 
-Provides insights to healthcare financials
-
-## Group (Chicken)
-- Soufiane Ben Haddou
-- Koen Gommers
-- Dennis Swart
-- Jeroen Taal
+A tool for retrieving and analysing Dutch healthcare financial data.
 
 ## Setup
 
 ### Requirements
 
 - Python 3.7
-- pipenv
+- pip
 - chromedriver
 
-### Instructions
+### Installation
 
-Install dependencies and create necessary directories
-
-    pipenv install
-    ./init.sh
-
-Activate virtualenv (Don't forget to do this every time after opening a new terminal)
-
-    pipenv shell
-
-If you need to run database migrations, make sure that your Python path is in your environment variables.
-
-    export PYTHONPATH=.
-
-To upgrade to newest database scheme, run:
-
-    alembic upgrade head
-
-Now you're all set to run the Python files. Example:
-
-    python run.py
+    pip install /path/to/hefi-tool/

@@ -1,7 +1,7 @@
-from core.database import db
+from ..database import db
 from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
-from models import DataPoint
+from ..models import DataPoint
 
 
 class Entry(db.Model):

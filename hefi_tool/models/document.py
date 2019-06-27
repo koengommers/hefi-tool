@@ -5,8 +5,8 @@ from datetime import datetime
 from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from core.database import db
-from pipeline.retrieval.document_downloader import DocumentDownloader
+from ..database import db
+from ..retrieval.document_downloader import DocumentDownloader
 
 
 class Document(db.Model):

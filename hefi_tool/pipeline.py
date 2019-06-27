@@ -1,17 +1,16 @@
 import pandas as pd
 from sqlalchemy import func
 
-from core.database import db
-from models import Entry
-from pipeline.processing.finance_data_extractor import FinanceDataExtractor
-from pipeline.processing.entity_data_extractor import EntityDataExtractor
-from pipeline.processing.employee_data_extractor import EmployeeDataExtractor
-from pipeline.retrieval.document_downloader import DocumentDownloader
-from pipeline.retrieval.document_scraper import DocumentScraper
-from pipeline.retrieval.documents_page import DocumentsPage
-from pipeline.retrieval.entry_scraper import EntryScraper
-from pipeline.retrieval.overview_page import OverviewPage
-
+from .database import db
+from .models import Entry
+from .processing.finance_data_extractor import FinanceDataExtractor
+from .processing.entity_data_extractor import EntityDataExtractor
+from .processing.employee_data_extractor import EmployeeDataExtractor
+from .retrieval.document_downloader import DocumentDownloader
+from .retrieval.document_scraper import DocumentScraper
+from .retrieval.documents_page import DocumentsPage
+from .retrieval.entry_scraper import EntryScraper
+from .retrieval.overview_page import OverviewPage
 
 class Pipeline:
     @classmethod

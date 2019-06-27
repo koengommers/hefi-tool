@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
-from core.database import db
-from models import Document
+from ..database import db
+from ..models import Document
 
 
 class DocumentScraper:

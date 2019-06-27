@@ -6,8 +6,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from core.database import db, DB_URL
-import models
+from hefi_tool.database import db, DB_URL
+import hefi_tool.models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -4,8 +4,8 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 
-from core.database import db
-from models import Document, Entry, Year
+from ..database import db
+from ..models import Document, Entry, Year
 
 
 class EntryScraper:

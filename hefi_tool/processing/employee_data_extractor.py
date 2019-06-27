@@ -1,8 +1,8 @@
 import pdfquery
 import re
 from jellyfish import jaro_winkler
-from core.database import db
-from models import Document
+from ..database import db
+from ..models import Document
 
 class EmployeeDataExtractor:
 

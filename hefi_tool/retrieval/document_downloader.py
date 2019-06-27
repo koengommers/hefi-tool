@@ -6,8 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, NoSuchWindowException
 
-from pipeline.retrieval.documents_page import DocumentsPage
-from pipeline.retrieval.overview_page import OverviewPage
+from ..retrieval.documents_page import DocumentsPage
+from ..retrieval.overview_page import OverviewPage
 
 
 class DocumentDownloader:
