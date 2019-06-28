@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="hefi_tool",
-    version="0.0.1",
+    version="1.0.0",
     packages=['hefi_tool'],
     install_requires=[
         'sqlalchemy',

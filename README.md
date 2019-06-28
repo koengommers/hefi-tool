@@ -1,15 +1,23 @@
-# HeFi-tool
+# Healthcare Financials Tool (HeFi-tool)
 
 A tool for retrieving and analysing Dutch healthcare financial data.
 
-## Setup
-
-### Requirements
+## Requirements
 
 - Python 3.7
 - pip
-- chromedriver
+- [chromedriver](http://chromedriver.chromium.org/)
 
-### Installation
+## Installation
 
-    pip install /path/to/hefi-tool/
+    pip install https://github.com/koengommers/hefi-tool/archive/master.zip
+
+## Database migrations
+
+Alembic is used for database migrations. To set up the database (tables, columns, etc.), run:
+
+    alembic -c path/to/hefi-tool/hefi_tool/alembic.ini upgrade head
+
+## Documentation
+
+Explanations, examples and reference of the code are available. [View documentation](docs/index.md)
