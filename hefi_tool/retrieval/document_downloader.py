@@ -1,3 +1,5 @@
+"""Contains DocumentDownloader class."""
+
 import os
 import time
 from itertools import groupby
@@ -6,21 +8,43 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, NoSuchWindowException
 
-from ..retrieval.documents_page import DocumentsPage
-from ..retrieval.overview_page import OverviewPage
+from .documents_page import DocumentsPage
+from .overview_page import OverviewPage
 
 
 class DocumentDownloader:
+    """Downloads documents efficiently.
+
+    It will split the documents into non-standardized and standardized documents,
+    because they have to be downloaded differently. Afterwards documents that
+    are on the same page will be grouped, to avoiding having to load pages double.
+    Documents are downloaded using a WebDriver. As the status of downloads cannot
+    be read, it will download the documents to a temporarily directory, when a file
+    is detected in that directory it will be renamed and moved.
+
+    """
+
     def __init__(self, documents, download_dir='data/temp', document_dir='data/pdf'):
+        """Init downloader object.
+
+        It will split the documents into non-standardized and standardized documents,
+        because they have to be downloaded differently.
+
+        Args:
+            documents (list): List of document objects to download.
+            download_dir (str): Path to directory that temporarily stores downloads.
+            document_dir (str): Path to directory that stores the documents.
+
+        """
         self.documents = documents
         self.download_dir = os.path.abspath(download_dir)
         self.document_dir = os.path.abspath(document_dir)
-
-        self.standardized = []
-        self.non_standardized = []
         self.split_documents()
 
     def split_documents(self):
+        """Split documents in non-standardized and standardized."""
+        self.standardized = []
+        self.non_standardized = []
         for doc in self.documents:
             if doc:
                 if doc.standardized and not doc.downloaded:
@@ -29,6 +53,7 @@ class DocumentDownloader:
                     self.non_standardized.append(doc)
 
     def init_driver(self):
+        """Start the WebDriver."""
         chrome_options = Options()
         chrome_options.add_experimental_option('prefs', {
             "plugins.plugins_list": [{
@@ -44,6 +69,7 @@ class DocumentDownloader:
         self.driver = webdriver.Chrome(options=chrome_options)
 
     def download(self):
+        """Start downloading the documents."""
         if self.standardized or self.non_standardized:
             self.init_driver()
             self.download_standardized()
@@ -51,7 +77,7 @@ class DocumentDownloader:
             self.driver.quit()
 
     def check_directory(self):
-
+        """Check if temporary download directory is empty."""
         if len(os.listdir(self.download_dir)) > 0:
             print('{} directory not empty'.format(self.download_dir))
             clear_directory = input('Want to remove its contents? [y/n] ') == 'y'
@@ -64,6 +90,12 @@ class DocumentDownloader:
                 exit()
 
     def download_standardized(self):
+        """Download the standardized documents.
+
+        Groups documents by entry (year and institution) because their links
+        are on the same page.
+
+        """
         entry_groups = [list(group) for entry_id, group in groupby(self.standardized, lambda doc: doc.entry_id)]
         entry_groups = [(group[0].entry, group) for group in entry_groups]
         for entry, docs in entry_groups:
@@ -95,6 +127,11 @@ class DocumentDownloader:
                     print('Document #{} can\'t be downloaded'.format(doc.id))
 
     def download_non_standardized(self):
+        """Download the non-standardized documents.
+
+        Groups documents by year because their links are on the same pages.
+
+        """
         year_groups = [(year, list(group)) for year, group in groupby(self.non_standardized, lambda doc: doc.entry.year)]
         for year, docs in year_groups:
             page = OverviewPage(year, driver=self.driver)

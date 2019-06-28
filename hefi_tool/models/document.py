@@ -1,3 +1,5 @@
+"""Contains Database class."""
+
 import os
 import string
 from datetime import datetime
@@ -10,6 +12,12 @@ from ..retrieval.document_downloader import DocumentDownloader
 
 
 class Document(db.Model):
+    """Represents a document.
+
+    This class is a SQLAlchemy model for the database.
+
+    """
+
     __tablename__ = 'documents'
 
     id             = Column(Integer, primary_key=True)
@@ -27,6 +35,19 @@ class Document(db.Model):
     is_processed   = Column(Boolean, default=False)
 
     def __init__(self, entry, label, standardized, name=None, published_on=None, url=None):
+        """Create a new document.
+
+        Args:
+            entry (Entry): The entry to which the document belongs.
+            label (str): The label the document has.
+            standardized (bool): Whether the document is a standardized format.
+            name (str): The optional name of the document.
+            published_on (datetime.date): Date on which it was published.
+            url (str): Optional url to the document.
+                The URL isn't really used, because it is generated
+                and not reliable because it changes.
+
+        """
         self.entry = entry
         self.label = label
         self.standardized = standardized
@@ -35,6 +56,15 @@ class Document(db.Model):
         self.url = url
 
     def filename(self, ext=True):
+        """Get the filename for storing the document.
+
+        Args:
+            ext (bool): Whether to include the extension (.pdf)
+
+        Returns:
+            (str) The filename.
+
+        """
         template = '{}-{}-{}'
         if ext:
             template += '.pdf'
@@ -43,6 +73,15 @@ class Document(db.Model):
         return template.format(clean_label, self.entry.business_id, self.entry.year)
 
     def get_path(self, download=True):
+        """Get path of the document file.
+
+        Args:
+            download (bool): Whether to download document if it isn't yet.
+
+        Returns:
+            (str) The absolute path to the file.
+
+        """
         if download and not self.downloaded:
             self.download()
         if self.path:
@@ -50,21 +89,25 @@ class Document(db.Model):
         return None
 
     def set_downloaded(self):
+        """Mark the document as downloaded and save path."""
         self.path = self.filename()
         self.downloaded = True
         self.downloaded_on = datetime.utcnow()
         db.session.commit()
 
     def remove_download(self):
+        """Unmark the document as downloaded."""
         self.path = None
         self.downloaded = False
         self.downloaded_on = None
         db.session.commit()
 
     def download(self):
+        """Download this document."""
         downloader = DocumentDownloader([self])
         downloader.download()
 
     def set_processed(self):
+        """Mark the document as processed."""
         self.is_processed = True
         db.session.commit()

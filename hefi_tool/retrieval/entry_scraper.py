@@ -1,3 +1,5 @@
+"""Contains EntryScraper class."""
+
 import locale
 import urllib.parse as urlparse
 from datetime import datetime
@@ -9,7 +11,22 @@ from ..models import Document, Entry, Year
 
 
 class EntryScraper:
+    """Scrapes overview page for entries.
+
+    Scrapes the listings page of a year for the institution information on it.
+    It also indexes the non-standardized documents on the page. For every
+    institution it saves the business id (KvK nummer), the name and the
+    location of the institution and the year.
+
+    """
+
     def __init__(self, page):
+        """Init the class.
+
+        Args:
+            page (OverviewPage): The page to scrape.
+
+        """
         self.page = page
         self.year = page.year
         self.soup = BeautifulSoup(page.get_html(), features='html.parser')
@@ -18,12 +35,19 @@ class EntryScraper:
         self.year_exists = bool(db.session.query(Year).filter_by(year=self.year).first())
 
     def scrape_entries(self):
+        """Start scraping the page for entries."""
         overview = self.soup.find('div', attrs={'id': 'resultaten'})
         if overview:
             for elem in overview.find_all('table', attrs={'class': 'ct'}):
                 self.scrape_entry(elem)
 
     def scrape_entry(self, elem):
+        """Get data from an element containing an entry.
+
+        Args:
+            elem: BeautifulSoup element that contains the entry.
+
+        """
         name     = elem.find('th', attrs={'class': 'crth'}).get_text().strip()
         location = elem.find('th', attrs={'class': 'crthc2'}).get_text().strip()
         url      = elem.find('a', attrs={'class': 'digilink'}).get('href')
@@ -45,6 +69,13 @@ class EntryScraper:
             self.scrape_documents(entry, elem)
 
     def scrape_documents(self, entry, entry_elem):
+        """Scrape non-standardized documents belonging to an entry.
+
+        Args:
+            entry (Entry): The entry to scrape the documents for.
+            entry_elem: The BeautifulSoup element that contains the data.
+
+        """
         for elem in entry_elem.find_all('table', attrs={'class': 'filerowcons'}):
             name_column = elem.find('td', text='naam')
             link = name_column.find_next('td').find('a')
@@ -62,6 +93,12 @@ class EntryScraper:
             self.documents.append(document)
 
     def save_results(self):
+        """Save the scraping results.
+
+        Returns:
+            (tuple) Number of entries and number of documents scraped.
+
+        """
         for obj in self.entries + self.documents:
             db.session.add(obj)
         db.session.commit()

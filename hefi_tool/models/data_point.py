@@ -1,9 +1,18 @@
+"""Contains DataPoint class."""
+
 from ..database import db
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 
 class DataPoint(db.Model):
+    """Represents a data point.
+
+    This class is a SQLAlchemy model for the database.
+    A data point is stored with a key/name, a value type and value.
+
+    """
+
     __tablename__ = 'data_points'
 
     id             = Column(Integer, primary_key=True)
@@ -14,14 +23,35 @@ class DataPoint(db.Model):
     value          = Column(String)
 
     def __init__(self, entry, key):
+        """Create a new data point.
+
+        Args:
+            entry (Entry): The entry to which the data point belongs.
+            key (str): The key/name for the data point.
+
+        """
         self.entry = entry
         self.name = key
 
     @staticmethod
     def list_to_csv(value):
+        """Convert a list to a comma separated string.
+
+        Args:
+            value (list): The list to convert.
+
+        """
         return ', '.join(map(lambda x: '"{}"'.format(str(x).replace('"', '')), value))
 
     def set_value(self, value):
+        """Set the value of the data point.
+
+        The value type is inferred from the value variable type.
+
+        Args:
+            value: The value to set.
+
+        """
         if type(value) == int:
             self.value_type = 'integer'
         elif type(value) == float:
@@ -38,6 +68,11 @@ class DataPoint(db.Model):
         self.value = value
 
     def get_value(self):
+        """Get the value from the data point.
+
+        The value is converted to fit its value type.
+
+        """
         value = self.value
         if self.value is None:
             return self.value
