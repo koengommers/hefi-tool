@@ -21,3 +21,16 @@ from hefi_tool import Pipeline
 data_points = ['totaal bedrijfsopbrengsten', 'totaal personeelskosten', 'totaal personeel']
 Pipeline.year_to_csv(2018, business_id='KvK nummer', name='instelling', data_points=data_points)
 ```
+
+## Querying the database
+
+If one of the supplied functions doesn't suit the needs, the database can be queried directly. For exact details on forming queries, read the [SQLAlchemy querying documentation](https://docs.sqlalchemy.org/en/13/orm/query.html).
+
+Example of querying all indexed documents:
+
+```python
+from hefi_tool.database import db
+from hefi_tool.models import Document
+
+documents = db.session.query(Document).all()
+```
