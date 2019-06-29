@@ -14,7 +14,7 @@ A tool for retrieving and analysing Dutch healthcare financial data.
 
 ## Database migrations
 
-Alembic is used for database migrations. To set up the database (tables, columns, etc.), run:
+Alembic is used for database migrations. To set up a new database (tables, columns, etc.), run:
 
     alembic -c path/to/hefi-tool/hefi_tool/alembic.ini upgrade head
 

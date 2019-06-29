@@ -22,7 +22,7 @@ After the documents are indexed, the needed documents are selected and downloade
 ## Extract data
 Every document that is downloaded is afterwards processed to extract data. The exact method differs for each document type, however all methods make use of [PDFQuery](https://github.com/jcushman/pdfquery), a library for extracting data from PDF documents. See [EmployeeDataExtractor](reference/processing/employee_data_extractor.md), [EntityDataExtractor](reference/processing/entity_data_extractor.md), [FinancialDataExtractor](reference/processing/financial_data_extractor.md) for more details.
 
-The data stored in the database can be put into a [Pandas](https://pandas.pydata.org/) DataFrame. See examples in '[Using the data](examples/using_the_data.md)'.
+The data stored in the database can be put into a [Pandas](https://pandas.pydata.org/) DataFrame or exported to csv. See examples in '[Using the data](examples/using_the_data.md)'.
 
 # Examples of usage
 

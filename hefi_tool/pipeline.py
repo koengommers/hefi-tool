@@ -101,6 +101,24 @@ class Pipeline:
         return pd.DataFrame(data, columns=columns)
 
     @classmethod
+    def year_to_csv(cls, year, business_id=None, name=None, data_points=[], export_path=None):
+        """Export data points from a year to a csv.
+
+        Args:
+            year (int): The year to select data points from.
+            business_id (str): The name of the business id column if it needs to be included.
+            name (str): The name of the business name column if it needs to be included.
+            data_points (list): List of data point keys that need to be included.
+            export_path (str): The destination of the csv file.
+                If none is given than it will default to `exports/{year}.csv`
+
+        """
+        df = cls.year_to_dataframe(year, business_id=business_id, name=name, data_points=data_points)
+        if not export_path:
+            export_path = 'data/exports/{}.csv'.format(year)
+        df.to_csv(export_path)
+
+    @classmethod
     def scrape_entries(cls, year):
         """Scrape entries from a given year.
 

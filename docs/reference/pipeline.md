@@ -67,6 +67,19 @@ Put data points from certain entries in a DataFrame.
 **Returns:**
     The DataFrame.
 
+### year_to_csv
+```python
+Pipeline.year_to_csv(year, business_id=None, name=None, data_points=[], export_path=None)
+```
+Export data points from a year to a csv.
+
+**Args:**
+- year (int): The year to select data points from.
+- business_id (str): The name of the business id column if it needs to be included.
+- name (str): The name of the business name column if it needs to be included.
+- data_points (list): List of data point keys that need to be included.
+- export_path (str): The destination of the csv file.
+    - If none is given than it will default to `exports/{year}.csv`
 
 ### scrape_entries
 ```python
